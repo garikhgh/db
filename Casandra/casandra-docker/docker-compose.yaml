@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  cassandra1:
+    image: cassandra:4.1
+    container_name: cassandra1
+    environment:
+      - CASSANDRA_SEEDS=cassandra1
+      - CASSANDRA_CLUSTER_NAME=UserActivityCluster
+      - CASSANDRA_DC=datacenter1
+      - CASSANDRA_RACK=rack1
+    ports:
+      - "9042:9042"
+    networks:
+      - cassandra-net
+
+  cassandra2:
+    image: cassandra:4.1
+    container_name: cassandra2
+    depends_on:
+      - cassandra1
+    environment:
+      - CASSANDRA_SEEDS=cassandra1
+      - CASSANDRA_CLUSTER_NAME=UserActivityCluster
+      - CASSANDRA_DC=datacenter1
+      - CASSANDRA_RACK=rack1
+    networks:
+      - cassandra-net
+
+  cassandra3:
+    image: cassandra:4.1
+    container_name: cassandra3
+    depends_on:
+      - cassandra1
+    environment:
+      - CASSANDRA_SEEDS=cassandra1
+      - CASSANDRA_CLUSTER_NAME=UserActivityCluster
+      - CASSANDRA_DC=datacenter1
+      - CASSANDRA_RACK=rack1
+    networks:
+      - cassandra-net
+
+volumes:
+  cassandra_data:
+
+networks:
+  cassandra-net:
